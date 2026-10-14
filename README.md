@@ -2,6 +2,14 @@
 
 End-to-end data analysis project: clean a retail customer dataset in **Python**, answer business questions with **PostgreSQL**, and present the results in a **Power BI** dashboard.
 
+## Problem statement
+
+A leading retail company wants to better understand its customers' shopping behavior in order to improve sales, customer satisfaction, and long-term loyalty. The management team has noticed changes in purchasing patterns across demographics, product categories, and sales channels (online vs. offline). They are particularly interested in uncovering which factors, such as discounts, reviews, seasons, or payment preferences, drive consumer decisions and repeat purchases.
+
+The task is to analyze the company's consumer behavior dataset to answer the following overarching business question:
+
+> **"How can the company leverage consumer shopping data to identify trends, improve customer engagement, and optimize marketing and product strategies?"**
+
 ## Overview
 
 The dataset has **3,900 customers** (one row per customer) with demographics, what they bought, how they paid and shipped, discounts, ratings and subscription status. The goal was to understand who the customers are, what drives revenue, and whether subscriptions, discounts or loyalty change how much people spend.
@@ -168,6 +176,7 @@ The dashboard connects to the PostgreSQL database in Import mode and includes:
 ## Limitations
 
 - The data has no dates, so trends over time, year-over-year growth and customer lifetime value could not be analysed.
+- The data has no online vs offline sales channel column, so channel comparisons mentioned in the problem statement could not be made.
 - Almost every segment difference is small, and no significance tests were run. Treat the findings as descriptive, not proven.
 - Missing ratings were filled with category medians, which slightly smooths the rating data.
 - Age groups are quartile bands, so the names (Young, Adult, Middle-aged, Senior) are labels of convenience.
