@@ -2,8 +2,6 @@
 
 End-to-end data analysis project: clean a retail customer dataset in **Python**, answer business questions with **PostgreSQL**, and present the results in a **Power BI** dashboard.
 
-![Average purchase by segment](charts/05_avg_purchase_flat.png)
-
 ## Overview
 
 The dataset has **3,900 customers** (one row per customer) with demographics, what they bought, how they paid and shipped, discounts, ratings and subscription status. The goal was to understand who the customers are, what drives revenue, and whether subscriptions, discounts or loyalty change how much people spend.
@@ -25,17 +23,28 @@ The dataset has **3,900 customers** (one row per customer) with demographics, wh
 
 - **Subscribers do not spend more.** Average spend is $59.49 for subscribers vs $59.87 for non-subscribers, and ratings are identical (3.75).
 - **Clothing is 44.7% of revenue** ($104,264) but has the lowest category rating (3.72). Shirt, Jeans and Blouse are the three lowest-rated products.
-- **Gender revenue follows customer share.** Males are 68% of customers and bring 67.7% of revenue; per-customer spend is nearly equal ($59.54 male, $60.25 female).
+- **Gender revenue follows customer share.** Males are 68% of customers and bring 67.7% of revenue. Per-customer spend is nearly equal ($59.54 male, $60.25 female).
 - **Discounts don't create bigger orders.** 43% of orders use a discount, yet discounted orders average $59.28 vs $60.13 without.
 - **Repeat buyers (more than 5 previous purchases) subscribe a bit more often** (27.6% vs 22.4%), but the comparison group is small (424 customers), so treat it as a hint.
 - **Nothing predicts spend.** Age, previous purchases and rating each have a correlation with purchase amount of about zero (-0.01 to 0.03).
 
-| | |
-|---|---|
-| ![Revenue by category](charts/01_revenue_by_category.png) | ![Subscription status](charts/03_subscription_donut.png) |
-| ![Revenue by age group](charts/06_revenue_by_age_group.png) | ![Top 10 states by revenue](charts/13_top10_states_revenue.png) |
+### Revenue by category
 
-More charts are in the [`charts/`](charts) folder.
+| Category | Customers | Revenue | Share | Avg rating |
+|---|---|---|---|---|
+| Clothing | 1,737 | $104,264 | 44.7% | 3.72 |
+| Accessories | 1,240 | $74,200 | 31.8% | 3.77 |
+| Footwear | 599 | $36,093 | 15.5% | 3.79 |
+| Outerwear | 324 | $18,524 | 7.9% | 3.75 |
+
+### Revenue by age group
+
+| Age group | Customers | Revenue | Share | Avg purchase |
+|---|---|---|---|---|
+| Young (18-31) | 1,028 | $62,143 | 26.7% | $60.45 |
+| Middle-aged (45-57) | 986 | $59,197 | 25.4% | $60.04 |
+| Adult (32-44) | 942 | $55,978 | 24.0% | $59.42 |
+| Senior (58-70) | 944 | $55,763 | 23.9% | $59.07 |
 
 ## Tech stack
 
@@ -57,17 +66,12 @@ customer-shopping-behavior-analysis/
 │   └── load_data.py                     # loads customer.csv into PostgreSQL
 ├── sql/
 │   └── analysis_queries.sql             # the 10 business questions
-├── charts/                              # PNG charts used in the report
-├── dashboard/
-│   └── dashboard.png                    # Power BI screenshot
-├── report/
-│   └── Customer_Shopping_Behavior_Analysis_Report.pdf
 └── README.md
 ```
 
 ## Data cleaning
 
-Done in [`notebooks/data_analysis_on_customer_data.ipynb`](notebooks):
+Done in the notebook in `notebooks/`:
 
 1. **Missing values:** only `Review Rating` had nulls (37 rows, 0.9%). They were filled with the median rating of the same category.
 2. **Column names:** lowercased with underscores, and `purchase_amount_(usd)` renamed to `purchase_amount`.
@@ -122,7 +126,7 @@ It should print `3900`, the number of rows loaded into the `customer` table.
 
 ## SQL analysis
 
-Ten business questions answered in [`sql/analysis_queries.sql`](sql):
+Ten business questions answered in `sql/analysis_queries.sql`:
 
 1. Total revenue by gender
 2. Customers who used a discount but still spent above the average
@@ -154,9 +158,12 @@ WHERE item_rank <= 3;
 
 ## Power BI dashboard
 
-![Power BI dashboard](dashboard/dashboard.png)
+The dashboard connects to the PostgreSQL database in Import mode and includes:
 
-The dashboard has KPI cards (customers, average purchase, average review rating), a subscription donut, revenue by category, revenue by age group, and slicers for subscription status, gender, category and shipping type. It connects to the PostgreSQL database in Import mode.
+- KPI cards: number of customers, average purchase amount, average review rating
+- A donut chart of customers by subscription status
+- Revenue by category and revenue by age group
+- Slicers for subscription status, gender, category and shipping type
 
 ## Limitations
 
@@ -172,10 +179,6 @@ The dashboard has KPI cards (customers, average purchase, average review rating)
 - Rebuild the loyalty segments with quartile-based thresholds
 - Add RFM-style segmentation if purchase dates become available
 - Publish the dashboard to Power BI Service
-
-## Report
-
-The full write-up, with charts and code for every question, is in [`report/`](report).
 
 ## Author
 
